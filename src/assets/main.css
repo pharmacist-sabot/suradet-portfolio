@@ -110,8 +110,7 @@ body {
   margin: 0 auto 2rem auto;
 }
 
-
-/* --- 6. Category & Card Styling --- */
+/* --- 6. Category & Card Styling (ฉบับดีไซน์ใหม่) --- */
 .category-section {
   margin-bottom: 4rem;
 }
@@ -134,60 +133,62 @@ body {
   border-radius: 2px;
 }
 
-.portfolio-list {
-  display: grid;
-  grid-template-columns: 1fr; /* 1 คอลัมน์บนมือถือ */
-  gap: 1.5rem;
-}
-/* 2 คอลัมน์บนจอที่ใหญ่ขึ้น */
-@media (min-width: 768px) {
-  .portfolio-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-.card {
+/* สไตล์สำหรับกล่องที่เก็บลิสต์รายการ และทำให้มันสกรอลล์ได้ */
+.item-title-list {
   background-color: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
-  padding: 1.5rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
+  gap: 0.75rem; /* ระยะห่างระหว่างรายการ */
+  
+  /* --- ทำให้สกรอลล์ได้เมื่อเนื้อหายาวเกิน --- */
+  max-height: 450px; /* ความสูงสูงสุดของกล่อง */
+  overflow-y: auto; /* แสดง scrollbar แนวตั้งเมื่อจำเป็น */
 }
 
-.card:hover {
-  transform: translateY(-8px);
-  border-color: var(--gradient-start);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-.card-title {
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: var(--primary-text-color);
-  margin: 0 0 0.75rem 0;
-}
-
-.card-meta {
+/* สไตล์สำหรับรายการแต่ละแถว */
+.item-title {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--secondary-text-color);
-  margin-bottom: 1rem;
-}
-.card-meta svg {
-  width: 16px;
-  height: 16px;
-  stroke: var(--secondary-text-color);
+  padding: 1rem 1.5rem;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  border: 1px solid transparent; /* เตรียมเส้นขอบไว้ */
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 }
 
-.card-description {
-  color: var(--secondary-text-color);
-  flex-grow: 1;
-  font-weight: 300;
+.item-title:hover {
+  background-color: rgba(28, 36, 56, 0.5); /* ทำให้สีพื้นหลังเปลี่ยนเมื่อชี้ */
+  border-color: var(--gradient-start);
+  transform: translateX(5px);
 }
+
+.item-title .title-text {
+  color: var(--primary-text-color);
+  font-weight: 500;
+  margin-right: 1rem; /* ระยะห่างจากวันที่ */
+}
+
+.item-title .item-date {
+  color: var(--secondary-text-color);
+  font-size: 0.9rem;
+  white-space: nowrap; /* ป้องกันไม่ให้วันที่ขึ้นบรรทัดใหม่ */
+  flex-shrink: 0;
+}
+
+/* ปรับปรุง Scrollbar ให้สวยงาม */
+.item-title-list {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) var(--surface-color);
+}
+.item-title-list::-webkit-scrollbar { width: 8px; }
+.item-title-list::-webkit-scrollbar-track { background: var(--surface-color); border-radius: 4px; }
+.item-title-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+.item-title-list::-webkit-scrollbar-thumb:hover { background: var(--secondary-text-color); }
 
 /* --- 7. Form Styling (ฉบับแก้ไข) --- */
 .form-container {
