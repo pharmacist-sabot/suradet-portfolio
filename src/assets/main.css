@@ -1,0 +1,311 @@
+/* src/assets/main.css */
+
+/* --- 1. Import Font 'Prompt' from Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;700&display=swap');
+
+/* --- 2. Define the New Dark Theme Color Palette --- */
+:root {
+  --background-color: #121826; /* สีพื้นหลังหลัก (เทา-น้ำเงินเข้ม) */
+  --surface-color: #1c2438;   /* สีของ Card และ Navbar (เข้มรองลงมา) */
+  --primary-text-color: #e2e8f0; /* สีตัวอักษรหลัก (ขาวนวล) */
+  --secondary-text-color: #94a3b8;/* สีตัวอักษรรอง (เทา) */
+  --border-color: #334155;     /* สีเส้นขอบ */
+  
+  /* Gradient ที่เป็นไฮไลท์หลัก */
+  --gradient-start: #8698FE;
+  --gradient-end: #5F79FC;
+  --gradient-text: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+
+  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --border-radius: 12px;
+}
+
+/* --- 3. General Body & Typography Styles --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Prompt', sans-serif;
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--primary-text-color);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  max-width: 900px; /* ปรับให้แคบลงเล็กน้อยเพื่อให้อ่านง่ายขึ้น */
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* --- 4. Navbar Styling --- */
+.navbar {
+  background-color: var(--surface-color);
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  background-color: rgba(28, 36, 56, 0.8); /* ทำให้โปร่งแสงเล็กน้อย */
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.nav-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-links a {
+  color: var(--primary-text-color);
+  text-decoration: none;
+  margin-left: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-links a:hover, .nav-links a.router-link-exact-active {
+  background-color: rgba(134, 152, 254, 0.1); /* สีพื้นหลังอ่อนๆ ของ gradient */
+  color: #c4cfff;
+}
+
+
+/* --- 5. Hero Section (สำหรับหน้าแรก) --- */
+.hero {
+  text-align: center;
+  padding: 4rem 0;
+  margin-bottom: 2rem;
+}
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero .tagline {
+  font-size: 1.25rem;
+  color: var(--secondary-text-color);
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+}
+
+
+/* --- 6. Category & Card Styling --- */
+.category-section {
+  margin-bottom: 4rem;
+}
+
+.category-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  position: relative;
+  display: inline-block;
+}
+.category-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 50%;
+  height: 4px;
+  background: var(--gradient-text);
+  border-radius: 2px;
+}
+
+.portfolio-list {
+  display: grid;
+  grid-template-columns: 1fr; /* 1 คอลัมน์บนมือถือ */
+  gap: 1.5rem;
+}
+/* 2 คอลัมน์บนจอที่ใหญ่ขึ้น */
+@media (min-width: 768px) {
+  .portfolio-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: var(--gradient-start);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--primary-text-color);
+  margin: 0 0 0.75rem 0;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--secondary-text-color);
+  margin-bottom: 1rem;
+}
+.card-meta svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--secondary-text-color);
+}
+
+.card-description {
+  color: var(--secondary-text-color);
+  flex-grow: 1;
+  font-weight: 300;
+}
+
+/* --- 7. Form Styling (ฉบับแก้ไข) --- */
+.form-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+}
+.form-container h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--secondary-text-color);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--primary-text-color);
+  font-family: 'Prompt', sans-serif;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  /* *** เพิ่มเข้ามา: บอกให้เบราว์เซอร์ใช้ UI ของ date picker แบบ dark mode *** */
+  color-scheme: dark; 
+}
+
+/* *** เพิ่มเข้ามา: จัดการกับ Placeholder Text *** */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--secondary-text-color);
+  opacity: 0.7;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--gradient-start);
+  box-shadow: 0 0 0 3px rgba(134, 152, 254, 0.2);
+}
+
+/* 
+  *** โค้ดส่วนสำคัญที่สุดในการแก้ปัญหา Autofill *** 
+  เราใช้ box-shadow แบบ inset เพื่อ "ทาสี" พื้นหลังทับสไตล์ของเบราว์เซอร์
+*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-text-fill-color: var(--primary-text-color) !important; /* บังคับสีตัวอักษร */
+    box-shadow: 0 0 0 50px var(--background-color) inset !important; /* บังคับสีพื้นหลัง */
+    -webkit-box-shadow: 0 0 0 50px var(--background-color) inset !important; /* สำหรับ Safari */
+    font-family: 'Prompt', sans-serif; /* บังคับฟอนต์ */
+}
+
+.form-button {
+  width: 100%;
+  padding: 1rem;
+  background: var(--gradient-text);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: 'Prompt', sans-serif;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.form-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(134, 152, 254, 0.3);
+}
+
+/* --- 8. Utility & Responsive Classes --- */
+.loading, .error, .empty-state {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 4rem 2rem;
+  color: var(--secondary-text-color);
+  background-color: var(--surface-color);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+/* --- 9. Scroll Reveal Animations --- */
+.before-enter {
+  opacity: 0;
+  transform: translateY(100px);
+  transition: all 1s ease-out;
+}
+
+.enter {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+/* Responsive Font Sizes */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  .hero .tagline {
+    font-size: 1.1rem;
+  }
+  .category-title {
+    font-size: 1.75rem;
+  }
+}
