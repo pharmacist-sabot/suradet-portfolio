@@ -13,10 +13,12 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { defineProps, defineEmits, onMounted, onUnmounted } from 'vue';
 defineProps({ item: { type: Object, required: true } });
 const emit = defineEmits(['close']);
+
 const formatDate = (start, end) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const startDate = new Date(start).toLocaleDateString('th-TH', options);
@@ -26,6 +28,7 @@ const formatDate = (start, end) => {
   }
   return startDate;
 };
+
 const handleKeydown = (e) => {
   if (e.key === 'Escape') { emit('close'); }
 };
@@ -38,14 +41,3 @@ onUnmounted(() => {
   document.body.style.overflow = 'auto';
 });
 </script>
-<style scoped>
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; z-index: 2000; backdrop-filter: blur(5px); }
-.modal-content { background-color: var(--surface-color); padding: 2.5rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); width: 90%; max-width: 600px; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); animation: slide-up 0.3s ease-out; }
-@keyframes slide-up { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-.modal-close-btn { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 2.5rem; color: var(--secondary-text-color); cursor: pointer; line-height: 1; padding: 0; }
-.modal-close-btn:hover { color: var(--primary-text-color); }
-.modal-title { font-size: 2rem; margin-top: 0; margin-bottom: 1rem; color: var(--primary-text-color); }
-.modal-meta { display: flex; align-items: center; gap: 0.75rem; color: var(--secondary-text-color); margin-bottom: 1.5rem; }
-.modal-meta svg { flex-shrink: 0; }
-.modal-description { font-size: 1rem; line-height: 1.8; color: var(--secondary-text-color); }
-</style>

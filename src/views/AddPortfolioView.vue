@@ -66,33 +66,23 @@ const form = ref({
 });
 
 const handleSubmit = async () => {
-  // 1. ตรวจสอบรหัสลับ
   if (form.value.secret_key !== import.meta.env.VITE_ADD_POST_SECRET_KEY) {
     alert('รหัสสำหรับบันทึกผลงานไม่ถูกต้อง!');
     return;
   }
-
   isSubmitting.value = true;
-  
   try {
-    // 2. เตรียมข้อมูลสำหรับส่ง
     const dataToInsert = {
       title: form.value.title,
       description: form.value.description,
       category: form.value.category,
       start_date: form.value.start_date,
-      end_date: form.value.end_date || null // ถ้า end_date ว่าง ให้ส่งเป็น null
+      end_date: form.value.end_date || null
     };
-    
-    // 3. ส่งข้อมูลไปที่ Supabase
     const { error } = await supabase.from('portfolio_items').insert([dataToInsert]);
-    
     if (error) throw error;
-    
     alert('บันทึกผลงานสำเร็จ!');
-    // Redirect ไปหน้าหลักหลังบันทึกสำเร็จ
     router.push('/');
-
   } catch (error) {
     console.error('Error inserting data:', error);
     alert(`เกิดข้อผิดพลาด: ${error.message}`);
@@ -101,14 +91,3 @@ const handleSubmit = async () => {
   }
 };
 </script>
-
-<style scoped>
-/* 
-  เราจะใช้ class selector '.form-button' เพื่อเจาะจงไปยังปุ่มของเรา
-  จากนั้นเพิ่ม margin-top เพื่อสร้างระยะห่างด้านบน
-  ค่า 1.5rem จะให้ระยะห่างที่สวยงาม (ประมาณ 24px)
-*/
-.form-button {
-  margin-top: 1.5rem;
-}
-</style>

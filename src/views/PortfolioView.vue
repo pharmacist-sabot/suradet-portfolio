@@ -1,43 +1,29 @@
-<!-- src/views/PortfolioView.vue (ฉบับแก้ไข) -->
+<!-- src/views/PortfolioView.vue (ฉบับแก้ไขสมบูรณ์) -->
 <template>
   <main class="container">
-    
-    <!-- Hero Section (ของคุณทำไว้ดีแล้ว) -->
-    <section class="hero" v-scroll-reveal>
+    <section class="hero fade-in">
       <h1>Suradet Pratomsak</h1>
       <p class="tagline">
         เภสัชกรชำนาญการ โรงพยาบาลสระโบสถ์ นักพัฒนา, วิทยากร, และผู้สร้างสรรค์นวัตกรรม
         ที่นี่คือพื้นที่รวบรวมผลงานและประสบการณ์ของผม
       </p>
     </section>
-    
-    <!-- Skills Section (ของคุณทำไว้ดีแล้ว) -->
-    <SkillsSection />
+
+    <!-- ***** CHANGE #1: Removed v-scroll-reveal, animation will be handled by CSS ***** -->
+    <SkillsSection class="category-section" />
 
     <div v-if="loading" class="loading">กำลังโหลดข้อมูลผลงาน...</div>
     <div v-if="error" class="error">{{ error }}</div>
-
-    <div v-if="!loading && !error && Object.keys(groupedItems).length === 0" class="empty-state">
+    <div v-if="!loading && !error && portfolioItems.length === 0" class="empty-state">
       ยังไม่มีผลงานในระบบ... <router-link to="/add">เพิ่มผลงานชิ้นแรก!</router-link>
     </div>
 
-    <div v-if="!loading && !error">
-      <section 
-        v-for="(items, category) in groupedItems" 
-        :key="category" 
-        class="category-section"
-        v-scroll-reveal 
-      >
+    <div v-if="!loading && !error && portfolioItems.length > 0">
+      <!-- ***** CHANGE #2: Removed v-scroll-reveal from here too ***** -->
+      <section v-for="(items, category) in groupedItems" :key="category" class="category-section">
         <h2 class="category-title">{{ category }}</h2>
-        
-        <!-- นี่คือส่วนที่เปลี่ยนไป: สร้างลิสต์ของชื่อเรื่องแทนการ์ด -->
         <div class="item-title-list">
-          <div 
-            v-for="item in items" 
-            :key="item.id" 
-            class="item-title" 
-            @click="openModal(item)"
-          >
+          <div v-for="item in items" :key="item.id" class="item-title" @click="openModal(item)">
             <span class="title-text">{{ item.title }}</span>
             <span class="item-date">{{ formatSimpleDate(item.start_date) }}</span>
           </div>
@@ -45,12 +31,7 @@
       </section>
     </div>
 
-    <!-- Modal จะถูกเรียกใช้จากที่นี่ -->
-    <PortfolioDetailModal 
-      v-if="isModalOpen" 
-      :item="selectedItem" 
-      @close="closeModal" 
-    />
+    <PortfolioDetailModal v-if="isModalOpen" :item="selectedItem" @close="closeModal" />
   </main>
 </template>
 
@@ -58,26 +39,16 @@
 import { ref, onMounted, computed } from 'vue';
 import { supabase } from '../supabase';
 import SkillsSection from '../components/SkillsSection.vue';
-// เราจะสร้างไฟล์นี้ในขั้นตอนต่อไป
-import PortfolioDetailModal from '../components/PortfolioDetailModal.vue'; 
+import PortfolioDetailModal from '../components/PortfolioDetailModal.vue';
 
-// --- Logic สำหรับควบคุม Modal ---
 const isModalOpen = ref(false);
 const selectedItem = ref(null);
 
-const openModal = (item) => {
-  selectedItem.value = item;
-  isModalOpen.value = true;
-};
+const openModal = (item) => { selectedItem.value = item; isModalOpen.value = true; };
+const closeModal = () => { isModalOpen.value = false; selectedItem.value = null; };
 
-const closeModal = () => {
-  isModalOpen.value = false;
-  selectedItem.value = null;
-};
-// ---------------------------------
-
-// ฟังก์ชันสำหรับ format วันที่ในลิสต์
 const formatSimpleDate = (date) => {
+  if (!date) return '';
   const options = { year: 'numeric', month: 'short', day: 'numeric' };
   return new Date(date).toLocaleDateString('th-TH', options);
 };
@@ -86,13 +57,15 @@ const portfolioItems = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
-// โค้ดส่วนดึงข้อมูลและจัดกลุ่ม เหมือนเดิม ไม่ต้องแก้
 async function fetchPortfolioItems() {
   try {
     loading.value = true;
-    const { data, error: dbError } = await supabase.from('portfolio_items').select('*').order('start_date', { ascending: false });
+    const { data, error: dbError } = await supabase
+      .from('portfolio_items')
+      .select('*')
+      .order('start_date', { ascending: false });
     if (dbError) throw dbError;
-    portfolioItems.value = data;
+    portfolioItems.value = data || [];
   } catch (err) {
     console.error('Error fetching data:', err);
     error.value = 'เกิดข้อผิดพลาดในการโหลดข้อมูล';
@@ -100,13 +73,65 @@ async function fetchPortfolioItems() {
     loading.value = false;
   }
 }
+
+// ***** START OF CHANGE #3: Improved and more flexible grouping logic *****
 const groupedItems = computed(() => {
-  const groups = {};
+  // Group all items by category dynamically from the data
+  const groups = portfolioItems.value.reduce((acc, item) => {
+    const category = item.category || 'ไม่มีหมวดหมู่';
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(item);
+    return acc;
+  }, {});
+
+  // Define the desired order of categories
   const categoryOrder = ['วิทยากร', 'ผลงานวิชาการ', 'นวัตกรรม', 'การประชุม/อบรม'];
-  for (const category of categoryOrder) { groups[category] = []; }
-  for (const item of portfolioItems.value) { if (groups[item.category]) { groups[item.category].push(item); } }
-  for (const category in groups) { if (groups[category].length === 0) { delete groups[category]; } }
-  return groups;
+  
+  // Sort the grouped items based on the defined order
+  const sortedGroups = {};
+  categoryOrder.forEach(category => {
+    if (groups[category]) {
+      sortedGroups[category] = groups[category];
+      delete groups[category]; // Remove from original to handle remaining categories
+    }
+  });
+
+  // Add any remaining categories (that were not in the order list) to the end
+  Object.keys(groups).forEach(category => {
+    sortedGroups[category] = groups[category];
+  });
+
+  return sortedGroups;
 });
-onMounted(() => { fetchPortfolioItems(); });
+// ***** END OF CHANGE #3 *****
+
+onMounted(() => { 
+  fetchPortfolioItems(); 
+});
 </script>
+
+<!-- Add a simple animation style directly here for simplicity -->
+<style scoped>
+.fade-in {
+  animation: fadeInAnimation 0.8s ease-in-out forwards;
+}
+
+.category-section {
+  animation: fadeInAnimation 0.8s ease-in-out forwards;
+  animation-delay: 0.2s; /* Stagger the animation */
+  opacity: 0; /* Start hidden */
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
