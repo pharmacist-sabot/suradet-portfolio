@@ -9,9 +9,6 @@
       </p>
     </section>
 
-    <!-- ***** CHANGE #1: Removed v-scroll-reveal, animation will be handled by CSS ***** -->
-    <SkillsSection class="category-section" />
-
     <div v-if="loading" class="loading">กำลังโหลดข้อมูลผลงาน...</div>
     <div v-if="error" class="error">{{ error }}</div>
     <div v-if="!loading && !error && portfolioItems.length === 0" class="empty-state">
@@ -38,7 +35,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { supabase } from '../supabase';
-import SkillsSection from '../components/SkillsSection.vue';
 import PortfolioDetailModal from '../components/PortfolioDetailModal.vue';
 
 const isModalOpen = ref(false);
