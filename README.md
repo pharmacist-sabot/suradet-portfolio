@@ -24,7 +24,7 @@
 
 This repository contains the source code for the personal portfolio of Suradet Pratomsak, an Expert Pharmacist and developer. The site is designed to be a clean, modern, and easily updatable platform to display a curated list of professional achievements, including academic works, innovations, and speaking engagements.
 
-## ✨ Features
+## Features
 
 - **Dynamic Content:** Portfolio items are fetched from a **Supabase** backend, allowing for easy updates without redeploying the site.
 - **Categorized View:** Projects are automatically grouped by category (e.g., Speaker, Academic Work, Innovation) for clear and organized browsing.
@@ -33,7 +33,7 @@ This repository contains the source code for the personal portfolio of Suradet P
 - **Secure Content Management:** A dedicated, key-protected route (`/add`) allows for the easy addition of new portfolio items.
 - **Smooth Animations:** Subtle scroll-reveal animations provide a modern and engaging user experience.
 
-## 🛠️ Built With the Tools and Technologies:
+## Built With the Tools and Technologies:
 
 <p align="center">
   <img src="https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vue.js&logoColor=4FC08D" alt="Vue.js">
@@ -45,7 +45,7 @@ This repository contains the source code for the personal portfolio of Suradet P
   <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3">
 </p>
 
-## 🚀 Getting Started
+## Getting Started
 
 To get a local copy up and running, follow these simple steps.
 
