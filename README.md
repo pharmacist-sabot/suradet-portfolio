@@ -7,14 +7,14 @@
 <br>
 
 <p>
-  <a href="https://github.com/pharmacist-sabot/suradet-portfolio/commits/main">
-    <img src="https://img.shields.io/github/last-commit/pharmacist-sabot/suradet-portfolio?style=for-the-badge&color=blue&logo=github" alt="Last Commit">
+  <a href="https://github.com/suradet-ps/suradet-portfolio/commits/main">
+    <img src="https://img.shields.io/github/last-commit/suradet-ps/suradet-portfolio?style=for-the-badge&color=blue&logo=github" alt="Last Commit">
   </a>
-  <a href="https://github.com/pharmacist-sabot/suradet-portfolio">
-    <img src="https://img.shields.io/github/languages/top/pharmacist-sabot/suradet-portfolio?style=for-the-badge&color=yellow&logo=javascript" alt="Top Language">
+  <a href="https://github.com/suradet-ps/suradet-portfolio">
+    <img src="https://img.shields.io/github/languages/top/suradet-ps/suradet-portfolio?style=for-the-badge&color=yellow&logo=javascript" alt="Top Language">
   </a>
-  <a href="https://github.com/pharmacist-sabot/suradet-portfolio">
-    <img src="https://img.shields.io/github/languages/count/pharmacist-sabot/suradet-portfolio?style=for-the-badge&color=informational" alt="Language Count">
+  <a href="https://github.com/suradet-ps/suradet-portfolio">
+    <img src="https://img.shields.io/github/languages/count/suradet-ps/suradet-portfolio?style=for-the-badge&color=informational" alt="Language Count">
   </a>
 </p>
 
@@ -58,7 +58,7 @@ To get a local copy up and running, follow these simple steps.
 
 1.  **Clone the repository:**
     ```sh
-    git clone https://github.com/pharmacist-sabot/suradet-portfolio.git
+    git clone https://github.com/suradet-ps/suradet-portfolio.git
     cd suradet-portfolio
     ```
 
